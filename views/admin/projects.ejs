@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_eyeadi Admin — Projects</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #050505; color: #f5f5f5; font-family: 'Inter', sans-serif; }
+        .admin-nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #0a0a0a; border-bottom: 1px solid #151515; position: sticky; top: 0; z-index: 100; }
+        .admin-nav .brand { font-family: 'Outfit', sans-serif; font-weight: 800; letter-spacing: 2px; }
+        .admin-nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .admin-nav a { color: #888; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .admin-nav a:hover, .admin-nav a.active { color: #e60000; }
+        .admin-nav .logout { color: #555; border: 1px solid #222; padding: 0.4rem 1rem; border-radius: 6px; }
+        .admin-nav .logout:hover { border-color: #e60000; color: #e60000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 2rem; }
+        .add-form { background: #0a0a0a; border: 1px solid #151515; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .add-form h2 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; margin-bottom: 1.5rem; color: #e60000; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.7rem 1rem; background: #111; border: 1px solid #222; border-radius: 8px; color: white; font-size: 0.9rem; outline: none; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #e60000; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; }
+        .checkbox-group input[type="checkbox"] { width: auto; accent-color: #e60000; }
+        .btn-submit { padding: 0.8rem 2rem; background: #e60000; color: white; border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-submit:hover { background: #ff1a1a; transform: translateY(-2px); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 1rem; border-bottom: 1px solid #151515; }
+        th { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        td img { width: 80px; height: 45px; object-fit: cover; border-radius: 4px; background: #111; }
+        .badge { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .badge-green { background: rgba(0,200,0,0.1); color: #00cc00; }
+        .badge-gray { background: rgba(255,255,255,0.05); color: #666; }
+        .badge-yellow { background: rgba(255,200,0,0.1); color: #ff0; }
+        .btn-delete { background: none; border: 1px solid #333; color: #888; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; }
+        .btn-delete:hover { border-color: #e60000; color: #e60000; }
+    </style>
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="brand">_EYEADI ADMIN</div>
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/projects" class="active">Projects</a>
+            <a href="/admin/contacts">Contacts</a>
+            <a href="/admin/bookings">Bookings</a>
+            <a href="/admin/blog">Blog</a>
+            <a href="/" target="_blank">View Site</a>
+            <a href="/admin/logout" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>🎬 Projects</h1>
+
+        <div class="add-form">
+            <h2>+ Add New Project</h2>
+            <form method="POST" action="/admin/projects" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" required placeholder="Project title">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category">
+                            <option>Brand Film</option>
+                            <option>Music Video</option>
+                            <option>Commercial</option>
+                            <option>Short Film</option>
+                            <option>Documentary</option>
+                            <option>Event</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Video URL <small style="color:#555;">(or upload below)</small></label>
+                        <input type="text" name="videoUrl" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="text" name="year" value="2026">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Thumbnail Image</label>
+                        <input type="file" name="thumbnail" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Video File <small style="color:#555;">(MP4, max 200MB)</small></label>
+                        <input type="file" name="videoFile" accept="video/*">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="featured" id="featured">
+                        <label for="featured">Featured</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Order</label>
+                        <input type="number" name="order" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Add Project</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Thumb</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% projects.forEach(p => { %>
+                <tr>
+                    <td><img src="<%= p.thumbnail || 'https://via.placeholder.com/80x45/111/333?text=No+Img' %>" alt="thumb"></td>
+                    <td><strong><%= p.title %></strong> <% if (p.featured) { %><span class="badge badge-yellow">★</span><% } %></td>
+                    <td><%= p.category %></td>
+                    <td><%= p.year %></td>
+                    <td><span class="badge <%= p.published ? 'badge-green' : 'badge-gray' %>"><%= p.published ? 'Published' : 'Draft' %></span></td>
+                    <td>
+                        <form method="POST" action="/admin/projects/<%= p._id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this project?')">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Category | _eyeadi Visuals</title>
+    <meta name="description" content="Browse projects by category — _eyeadi Visuals">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        .category-hero {
+            padding: 10rem 0 4rem;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(230,0,0,0.08) 0%, var(--bg-color) 60%);
+        }
+        .category-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 0.5rem;
+        }
+        .category-hero p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--accent-color); }
+        .project-count {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: #444;
+        }
+        .empty-state h2 {
+            color: #555;
+            margin-bottom: 1rem;
+            text-transform: none;
+        }
+        .empty-state p { margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-glow"></div>
+    <div class="noise"></div>
+
+    <!-- Video Lightbox Modal -->
+    <div class="video-lightbox" id="video-lightbox">
+        <button class="lightbox-close" id="lightbox-close">✕</button>
+        <div class="lightbox-content">
+            <video id="lightbox-video" controls playsinline>
+                <source id="lightbox-source" src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="logo" style="text-decoration:none;color:white;">_eyeadi</a>
+            <div class="nav-links-desktop">
+                <a href="/#portfolio" class="nav-link interactive" data-action="hover">Work</a>
+                <a href="/#services" class="nav-link interactive" data-action="hover">Services</a>
+                <a href="/#about" class="nav-link interactive" data-action="hover">About</a>
+                <a href="/#contact" class="nav-link interactive" data-action="hover">Contact</a>
+            </div>
+            <a href="/" class="menu-btn interactive" data-action="hover" style="text-decoration:none;color:white;">← Back</a>
+        </div>
+    </nav>
+
+    <section class="category-hero">
+        <div class="container">
+            <a href="/" class="back-link">← Back to Home</a>
+            <h1 id="category-title">Loading...</h1>
+            <p id="category-desc"></p>
+        </div>
+    </section>
+
+    <section class="portfolio" style="padding-top:0;">
+        <div class="container">
+            <p class="project-count" id="project-count"></p>
+            <div class="portfolio-grid" id="portfolio-grid">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" style="padding:3rem 0;">
+        <div class="container">
+            <div class="footer-bottom" style="border:none;padding:0;">
+                <p>&copy; 2026 _eyeadi Visuals. All rights reserved.</p>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/_eyeadi/" target="_blank">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get category from URL
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get('category') || '';
+
+        const descriptions = {
+            'Brand Film': 'Cinematic storytelling that transforms your brand into an experience.',
+            'Music Video': 'Visual experiences crafted to amplify your sound.',
+            'Commercial': 'Premium ads designed to convert viewers into customers.',
+            'Documentary': 'Real stories, told with cinematic quality.',
+            'Event Coverage': 'Every moment captured with premium production value.',
+        };
+
+        // Set page info
+        document.getElementById('page-title').textContent = `${category || 'All Projects'} | _eyeadi Visuals`;
+        document.getElementById('category-title').textContent = category || 'All Projects';
+        document.getElementById('category-desc').textContent = descriptions[category] || 'Browse our complete portfolio.';
+
+        // Load projects
+        async function loadProjects() {
+            const grid = document.getElementById('portfolio-grid');
+            const countEl = document.getElementById('project-count');
+            try {
+                const url = category ? `/api/projects?category=${encodeURIComponent(category)}` : '/api/projects';
+                const res = await fetch(url);
+                const projects = await res.json();
+
+                if (projects.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column:1/-1;">
+                            <h2>No ${category || ''} projects yet</h2>
+                            <p>Check back soon — new work is always in production.</p>
+                            <a href="/" class="btn btn-outline interactive" data-action="magnetic">← Back to Home</a>
+                        </div>
+                    `;
+                    countEl.textContent = '';
+                    return;
+                }
+
+                countEl.textContent = `${projects.length} project${projects.length !== 1 ? 's' : ''}`;
+
+                grid.innerHTML = projects.map((p, i) => `
+                    <div class="portfolio-item fade-up ${i % 2 === 0 ? 'fade-delay-1' : 'fade-delay-2'}">
+                        <div class="portfolio-media interactive" data-action="play" data-video="${p.videoUrl || ''}">
+                            <img src="${p.thumbnail || 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=1000'}" alt="${p.title}" class="portfolio-thumb">
+                            ${p.videoUrl ? `
+                            <video muted loop playsinline class="portfolio-vid-preview">
+                                <source src="${p.videoUrl}" type="video/mp4">
+                            </video>` : ''}
+                            <div class="play-icon"></div>
+                        </div>
+                        <div class="portfolio-info">
+                            <h3>${p.title}</h3>
+                            <p>${p.category} • '${p.year ? p.year.slice(-2) : ''}</p>
+                        </div>
+                        ${p.description ? `<p style="color:#666;font-size:0.9rem;padding:0 0.5rem;">${p.description}</p>` : ''}
+                    </div>
+                `).join('');
+
+                // Init effects
+                initEffects();
+            } catch (err) {
+                grid.innerHTML = '<p style="text-align:center;color:#555;grid-column:1/-1;">Could not load projects.</p>';
+            }
+        }
+
+        function initEffects() {
+            // Fade-up observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+            // Video hover (muted preview)
+            document.querySelectorAll('.portfolio-media').forEach(item => {
+                const video = item.querySelector('.portfolio-vid-preview');
+                if (video) {
+                    item.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(() => {}); });
+                    item.addEventListener('mouseleave', () => video.pause());
+                }
+            });
+
+            // Cursor
+            document.querySelectorAll('.interactive').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover', 'cursor-action'));
+            });
+
+            // Video Lightbox — click to play full with audio
+            const lightbox = document.getElementById('video-lightbox');
+            const lightboxVideo = document.getElementById('lightbox-video');
+            const lightboxSource = document.getElementById('lightbox-source');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            document.querySelectorAll('.portfolio-media').forEach(item => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', () => {
+                    const videoUrl = item.getAttribute('data-video');
+                    if (!videoUrl) return;
+                    lightboxSource.src = videoUrl;
+                    lightboxVideo.load();
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    lightboxVideo.play().catch(() => {});
+                });
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                lightboxVideo.pause();
+                lightboxVideo.currentTime = 0;
+                document.body.style.overflow = '';
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+            });
+        }
+
+        // Cursor
+        const dot = document.querySelector('.cursor-dot');
+        const glow = document.querySelector('.cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+            glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px';
+        });
+
+        loadProjects();
+    </script>
+</body>
+</html>

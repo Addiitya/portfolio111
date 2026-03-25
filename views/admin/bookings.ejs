@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_eyeadi Admin — Bookings</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #050505; color: #f5f5f5; font-family: 'Inter', sans-serif; }
+        .admin-nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #0a0a0a; border-bottom: 1px solid #151515; position: sticky; top: 0; z-index: 100; }
+        .admin-nav .brand { font-family: 'Outfit', sans-serif; font-weight: 800; letter-spacing: 2px; }
+        .admin-nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .admin-nav a { color: #888; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .admin-nav a:hover, .admin-nav a.active { color: #e60000; }
+        .admin-nav .logout { color: #555; border: 1px solid #222; padding: 0.4rem 1rem; border-radius: 6px; }
+        .admin-nav .logout:hover { border-color: #e60000; color: #e60000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 2rem; }
+        .booking-card { background: #0a0a0a; border: 1px solid #151515; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+        .booking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .booking-header h3 { font-family: 'Outfit', sans-serif; }
+        .booking-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .detail { font-size: 0.85rem; }
+        .detail .label { color: #555; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 0.2rem; }
+        .detail .value { color: #ccc; }
+        .booking-notes { color: #888; font-size: 0.9rem; padding: 0.8rem; background: #080808; border-radius: 8px; margin-bottom: 1rem; }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-pending { background: rgba(255,200,0,0.1); color: #ffcc00; }
+        .badge-confirmed { background: rgba(0,200,0,0.1); color: #00cc00; }
+        .badge-declined { background: rgba(230,0,0,0.1); color: #e60000; }
+        .action-btns { display: flex; gap: 0.5rem; }
+        .action-btns button { background: none; border: 1px solid #333; color: #888; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; }
+        .action-btns .btn-confirm:hover { border-color: #00cc00; color: #00cc00; }
+        .action-btns .btn-decline:hover { border-color: #e60000; color: #e60000; }
+        .empty { text-align: center; padding: 4rem; color: #444; }
+    </style>
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="brand">_EYEADI ADMIN</div>
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/projects">Projects</a>
+            <a href="/admin/contacts">Contacts</a>
+            <a href="/admin/bookings" class="active">Bookings</a>
+            <a href="/admin/blog">Blog</a>
+            <a href="/" target="_blank">View Site</a>
+            <a href="/admin/logout" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>📅 Booking Requests</h1>
+
+        <% if (bookings.length === 0) { %>
+            <div class="empty">No bookings yet. They'll appear here when clients request a shoot.</div>
+        <% } %>
+
+        <% bookings.forEach(b => { %>
+        <div class="booking-card">
+            <div class="booking-header">
+                <h3><%= b.name %></h3>
+                <span class="badge badge-<%= b.status %>"><%= b.status %></span>
+            </div>
+            <div class="booking-details">
+                <div class="detail">
+                    <div class="label">Event Type</div>
+                    <div class="value"><%= b.eventType %></div>
+                </div>
+                <div class="detail">
+                    <div class="label">Date</div>
+                    <div class="value"><%= new Date(b.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %></div>
+                </div>
+                <div class="detail">
+                    <div class="label">Email</div>
+                    <div class="value"><%= b.email %></div>
+                </div>
+                <div class="detail">
+                    <div class="label">Phone</div>
+                    <div class="value"><%= b.phone || 'N/A' %></div>
+                </div>
+                <div class="detail">
+                    <div class="label">Location</div>
+                    <div class="value"><%= b.location || 'N/A' %></div>
+                </div>
+                <div class="detail">
+                    <div class="label">Budget</div>
+                    <div class="value"><%= b.budget || 'N/A' %></div>
+                </div>
+            </div>
+            <% if (b.details) { %>
+            <div class="booking-notes"><strong>Details:</strong> <%= b.details %></div>
+            <% } %>
+            <% if (b.status === 'pending') { %>
+            <div class="action-btns">
+                <form method="POST" action="/admin/bookings/<%= b._id %>/status" style="display:inline;">
+                    <input type="hidden" name="status" value="confirmed">
+                    <button type="submit" class="btn-confirm">✓ Confirm</button>
+                </form>
+                <form method="POST" action="/admin/bookings/<%= b._id %>/status" style="display:inline;">
+                    <input type="hidden" name="status" value="declined">
+                    <button type="submit" class="btn-decline">✗ Decline</button>
+                </form>
+            </div>
+            <% } %>
+        </div>
+        <% }) %>
+    </div>
+</body>
+</html>

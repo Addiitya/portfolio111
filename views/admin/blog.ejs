@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_eyeadi Admin — Blog</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #050505; color: #f5f5f5; font-family: 'Inter', sans-serif; }
+        .admin-nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #0a0a0a; border-bottom: 1px solid #151515; position: sticky; top: 0; z-index: 100; }
+        .admin-nav .brand { font-family: 'Outfit', sans-serif; font-weight: 800; letter-spacing: 2px; }
+        .admin-nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .admin-nav a { color: #888; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .admin-nav a:hover, .admin-nav a.active { color: #e60000; }
+        .admin-nav .logout { color: #555; border: 1px solid #222; padding: 0.4rem 1rem; border-radius: 6px; }
+        .admin-nav .logout:hover { border-color: #e60000; color: #e60000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 2rem; }
+        .add-form { background: #0a0a0a; border: 1px solid #151515; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .add-form h2 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; margin-bottom: 1.5rem; color: #e60000; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.7rem 1rem; background: #111; border: 1px solid #222; border-radius: 8px; color: white; font-size: 0.9rem; outline: none; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #e60000; }
+        .form-group textarea { resize: vertical; min-height: 200px; }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .checkbox-group input[type="checkbox"] { width: auto; accent-color: #e60000; }
+        .btn-submit { padding: 0.8rem 2rem; background: #e60000; color: white; border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-submit:hover { background: #ff1a1a; transform: translateY(-2px); }
+        .post-card { background: #0a0a0a; border: 1px solid #151515; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .post-info h3 { font-family: 'Outfit', sans-serif; margin-bottom: 0.3rem; }
+        .post-info .meta { font-size: 0.8rem; color: #555; }
+        .post-actions { display: flex; gap: 0.5rem; align-items: center; }
+        .badge { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+        .badge-green { background: rgba(0,200,0,0.1); color: #00cc00; }
+        .badge-gray { background: rgba(255,255,255,0.05); color: #666; }
+        .btn-delete { background: none; border: 1px solid #333; color: #888; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; }
+        .btn-delete:hover { border-color: #e60000; color: #e60000; }
+        .tags { display: flex; gap: 0.4rem; margin-top: 0.3rem; }
+        .tag { font-size: 0.7rem; padding: 0.15rem 0.5rem; background: rgba(230,0,0,0.1); color: #e60000; border-radius: 4px; }
+        .empty { text-align: center; padding: 4rem; color: #444; }
+    </style>
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="brand">_EYEADI ADMIN</div>
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/projects">Projects</a>
+            <a href="/admin/contacts">Contacts</a>
+            <a href="/admin/bookings">Bookings</a>
+            <a href="/admin/blog" class="active">Blog</a>
+            <a href="/" target="_blank">View Site</a>
+            <a href="/admin/logout" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>✍️ Blog Posts</h1>
+
+        <div class="add-form">
+            <h2>+ New Blog Post</h2>
+            <form method="POST" action="/admin/blog" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" required placeholder="Post title">
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (comma-separated)</label>
+                        <input type="text" name="tags" placeholder="behind-the-scenes, gear, tips">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" required placeholder="Write your blog post content here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Cover Image</label>
+                    <input type="file" name="coverImage" accept="image/*">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" name="published" id="published" checked>
+                    <label for="published">Publish immediately</label>
+                </div>
+                <button type="submit" class="btn-submit">Create Post</button>
+            </form>
+        </div>
+
+        <% if (posts.length === 0) { %>
+            <div class="empty">No blog posts yet. Start writing to share your creative journey.</div>
+        <% } %>
+
+        <% posts.forEach(post => { %>
+        <div class="post-card">
+            <div class="post-info">
+                <h3><%= post.title %></h3>
+                <div class="meta"><%= new Date(post.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) %> • /<%= post.slug %></div>
+                <% if (post.tags && post.tags.length) { %>
+                <div class="tags">
+                    <% post.tags.forEach(t => { %><span class="tag"><%= t %></span><% }) %>
+                </div>
+                <% } %>
+            </div>
+            <div class="post-actions">
+                <span class="badge <%= post.published ? 'badge-green' : 'badge-gray' %>"><%= post.published ? 'Published' : 'Draft' %></span>
+                <form method="POST" action="/admin/blog/<%= post._id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this post?')">
+                    <button type="submit" class="btn-delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_eyeadi Visuals | Cinematic Videography</title>
+    <meta name="description" content="This isn't content. This is cinema. Premium videography by _eyeadi Visuals.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-glow"></div>
+
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-text">_eyeadi Visuals</div>
+            <div class="loader-counter" id="loader-counter">0%</div>
+        </div>
+    </div>
+    <div class="noise"></div>
+
+    <!-- Video Lightbox Modal -->
+    <div class="video-lightbox" id="video-lightbox">
+        <button class="lightbox-close" id="lightbox-close">✕</button>
+        <div class="lightbox-content">
+            <video id="lightbox-video" controls playsinline>
+                <source id="lightbox-source" src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#home" class="logo" style="text-decoration:none;color:white;">_eyeadi</a>
+            <div class="nav-links-desktop">
+                <a href="#portfolio" class="nav-link interactive" data-action="hover">Work</a>
+                <a href="#services" class="nav-link interactive" data-action="hover">Services</a>
+                <a href="#about" class="nav-link interactive" data-action="hover">About</a>
+                <a href="#blog-section" class="nav-link interactive" data-action="hover">Journal</a>
+                <a href="#contact" class="nav-link interactive" data-action="hover">Contact</a>
+            </div>
+            <div class="menu-btn interactive" data-action="hover" id="menu-btn">Menu</div>
+        </div>
+    </nav>
+
+    <!-- Full-Screen Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay">
+        <div class="menu-overlay-close" id="menu-close">✕</div>
+        <div class="menu-overlay-content">
+            <a href="#home" class="menu-overlay-link">Home</a>
+            <a href="#portfolio" class="menu-overlay-link">Work</a>
+            <a href="#about" class="menu-overlay-link">About</a>
+            <a href="#services" class="menu-overlay-link">Services</a>
+            <a href="#reviews" class="menu-overlay-link">Reviews</a>
+            <a href="#blog-section" class="menu-overlay-link">Journal</a>
+            <a href="#booking" class="menu-overlay-link">Book a Shoot</a>
+            <a href="#contact" class="menu-overlay-link">Contact</a>
+        </div>
+        <div class="menu-overlay-footer">
+            <a href="mailto:adityakolhe168@gmail.com">booking@eyeadi.com</a>
+            <div class="menu-overlay-socials">
+                <a href="https://www.instagram.com/_eyeadi/" target="_blank">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <a href="#booking" class="floating-cta interactive" data-action="magnetic">GO</a>
+
+    <main class="smooth-wrapper">
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-video-wrapper parallax-bg" data-speed="0.3">
+                <video autoplay muted loop playsinline class="hero-video">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4" type="video/mp4">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=2000" alt="Cinematic Space">
+                </video>
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content fade-up">
+                    <h1><span class="split-text">This isn't content.</span> <span class="split-text">This is cinema.</span></h1>
+                    <p class="hero-subtitle fade-delay-1 fade-up">Premium cinematic videography that transforms brands into experiences.</p>
+                    <div class="hero-buttons fade-delay-2 fade-up">
+                        <a href="#portfolio" class="btn btn-primary interactive" data-action="magnetic">View Work</a>
+                        <a href="#booking" class="btn btn-outline interactive" data-action="magnetic">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator fade-up fade-delay-2">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="portfolio" id="portfolio">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2>Selected Work</h2>
+                    <p class="section-subtitle">Built for attention. Crafted for impact.</p>
+                </div>
+                
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Dynamically loaded from API -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Marquee -->
+        <section class="testimonials">
+            <div class="marquee-wrapper">
+                <div class="marquee">
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                    <span>ASTONISHING ✦ PREMIUM ✦ CINEMATIC ✦ </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content fade-up">
+                        <h2>Behind the Lens</h2>
+                        <p class="about-lead">I'm _eyeadi — a filmmaker who believes every brand has a story worth watching, not just reading.</p>
+                        <p>With years of experience in cinematic production, I specialize in creating visuals that don't just capture attention — they hold it. From brand films to music videos, every frame is designed to evoke emotion and drive action.</p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="50">0</div>
+                                <div class="stat-label">Projects Delivered</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="30">0</div>
+                                <div class="stat-label">Happy Clients</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="5">0</div>
+                                <div class="stat-label">Years Experience</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual fade-up fade-delay-1">
+                        <div class="about-image-wrapper">
+                            <img src="/uploads/about.jpg" alt="Aditya Kolhe — _eyeadi" class="about-image">
+                            <div class="about-image-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2>Visuals that are remembered.</h2>
+                </div>
+                <div class="services-list fade-up fade-delay-1">
+                    <a href="/category.html?category=Brand+Film" class="service-row interactive" data-action="hover" style="text-decoration:none;color:inherit;">
+                        <h3>Brand Films</h3>
+                        <p class="service-desc">Cinematic storytelling for your brand</p>
+                        <div class="service-arrow">↗</div>
+                    </a>
+                    <a href="/category.html?category=Music+Video" class="service-row interactive" data-action="hover" style="text-decoration:none;color:inherit;">
+                        <h3>Music Videos</h3>
+                        <p class="service-desc">Visual experiences for your sound</p>
+                        <div class="service-arrow">↗</div>
+                    </a>
+                    <a href="/category.html?category=Commercial" class="service-row interactive" data-action="hover" style="text-decoration:none;color:inherit;">
+                        <h3>Commercials</h3>
+                        <p class="service-desc">Premium ads that convert viewers</p>
+                        <div class="service-arrow">↗</div>
+                    </a>
+                    <a href="/category.html?category=Documentary" class="service-row interactive" data-action="hover" style="text-decoration:none;color:inherit;">
+                        <h3>Documentaries</h3>
+                        <p class="service-desc">Real stories, cinematic quality</p>
+                        <div class="service-arrow">↗</div>
+                    </a>
+                    <a href="/category.html?category=Event+Coverage" class="service-row interactive" data-action="hover" style="text-decoration:none;color:inherit;">
+                        <h3>Event Coverage</h3>
+                        <p class="service-desc">Every moment, premium quality</p>
+                        <div class="service-arrow">↗</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client Reviews -->
+        <section class="reviews" id="reviews">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2>What Clients Say</h2>
+                </div>
+                <div class="reviews-carousel fade-up fade-delay-1">
+                    <div class="review-track" id="review-track">
+                        <div class="review-card">
+                            <p class="review-text">"The video _eyeadi produced for our brand launch literally doubled our engagement overnight. Every single frame was intentional."</p>
+                            <div class="review-author">
+                                <div class="review-name">Priya Sharma</div>
+                                <div class="review-role">Founder, Luxe Studio</div>
+                            </div>
+                        </div>
+                        <div class="review-card">
+                            <p class="review-text">"Working with _eyeadi felt different. They understood the emotion we wanted to convey before we even explained it."</p>
+                            <div class="review-author">
+                                <div class="review-name">Arjun Patel</div>
+                                <div class="review-role">Creative Director, Pulse Media</div>
+                            </div>
+                        </div>
+                        <div class="review-card">
+                            <p class="review-text">"Best investment we made for our product launch. The cinematic quality is unmatched at this price point. Period."</p>
+                            <div class="review-author">
+                                <div class="review-name">Rahul Verma</div>
+                                <div class="review-role">CEO, NovaTech</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-nav">
+                        <button class="review-btn interactive" data-action="hover" id="review-prev">←</button>
+                        <button class="review-btn interactive" data-action="hover" id="review-next">→</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Preview Section -->
+        <section class="blog-section" id="blog-section">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2>Journal</h2>
+                    <p class="section-subtitle">Behind the scenes, gear talks, and creative insights.</p>
+                </div>
+                <div class="blog-grid fade-up fade-delay-1" id="blog-grid">
+                    <!-- Dynamically loaded from API -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section class="booking" id="booking">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <h2>Book a Shoot</h2>
+                    <p class="section-subtitle">Let's create something extraordinary together.</p>
+                </div>
+                <form class="booking-form fade-up fade-delay-1" id="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name *</label>
+                            <input type="text" name="name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" placeholder="+91 XXXX XXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Event Type *</label>
+                            <select name="eventType" required>
+                                <option value="">Select type</option>
+                                <option value="Brand Film">Brand Film</option>
+                                <option value="Music Video">Music Video</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Documentary">Documentary</option>
+                                <option value="Event Coverage">Event Coverage</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Preferred Date *</label>
+                            <input type="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" name="location" placeholder="City or venue">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Budget Range</label>
+                            <select name="budget">
+                                <option value="">Select budget</option>
+                                <option value="Under ₹25,000">Under ₹25,000</option>
+                                <option value="₹25,000 - ₹50,000">₹25,000 - ₹50,000</option>
+                                <option value="₹50,000 - ₹1,00,000">₹50,000 - ₹1,00,000</option>
+                                <option value="₹1,00,000+">₹1,00,000+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Details</label>
+                            <textarea name="details" placeholder="Tell us about your vision..." rows="3"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary interactive" data-action="magnetic">Submit Booking Request</button>
+                    <div class="form-status" id="booking-status"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact-content fade-up">
+                    <h2>Got a Quick Question?</h2>
+                    <p>Drop us a message and we'll get back to you within 24 hours.</p>
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="name" required placeholder="Your Name *">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" required placeholder="Your Email *">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder="Phone (optional)">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" required placeholder="Your Message *" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary interactive" data-action="magnetic">Send Message</button>
+                        <div class="form-status" id="contact-status"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container relative">
+                <div class="footer-top">
+                    <p>Let's create something extraordinary.</p>
+                    <a href="mailto:adityakolhe168@gmail.com" class="footer-email interactive" data-action="hover">booking@eyeadi.com</a>
+                </div>
+                <div class="footer-huge-logo">_EYEADI</div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 _eyeadi Visuals. All rights reserved.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.instagram.com/_eyeadi/" target="_blank" class="interactive" data-action="hover">Instagram</a>
+                        <a href="#" class="interactive" data-action="hover">Twitter</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
