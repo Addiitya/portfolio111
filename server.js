@@ -9,9 +9,13 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Ensure uploads directory exists
+// Ensure uploads directory exists (wrap in try-catch for Vercel's read-only file system)
 const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+try {
+  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+} catch (err) {
+  // Ignored on Serverless platforms
+}
 
 // Middleware
 app.use(cors());
