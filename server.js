@@ -46,14 +46,21 @@ app.use('/admin', require('./routes/admin'));
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`\n🎬 _eyeadi Visuals server running at http://localhost:${PORT}`);
-      console.log(`📊 Admin panel at http://localhost:${PORT}/admin`);
-      console.log(`🔌 API at http://localhost:${PORT}/api\n`);
-    });
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => {
+        console.log(`\n🎬 _eyeadi Visuals server running at http://localhost:${PORT}`);
+        console.log(`📊 Admin panel at http://localhost:${PORT}/admin`);
+        console.log(`🔌 API at http://localhost:${PORT}/api\n`);
+      });
+    }
   })
   .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
     console.log('\n💡 Make sure MongoDB is running: brew services start mongodb-community');
-    process.exit(1);
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   });
+
+// Export the Express API to work natively with Vercel's Serverless Functions
+module.exports = app;

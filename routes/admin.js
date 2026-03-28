@@ -4,23 +4,9 @@ const Project = require('../models/Project');
 const Contact = require('../models/Contact');
 const Booking = require('../models/Booking');
 const BlogPost = require('../models/BlogPost');
-const multer = require('multer');
-const path = require('path');
 const { requireLogin } = require('../middleware/auth');
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => {
-    cb(null, 'admin-' + Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } });
-const adminUpload = upload.fields([
-  { name: 'thumbnail', maxCount: 1 },
-  { name: 'videoFile', maxCount: 1 },
-  { name: 'coverImage', maxCount: 1 }
-]);
 
 // Login page
 router.get('/login', (req, res) => {
@@ -69,10 +55,8 @@ router.get('/projects', requireLogin, async (req, res) => {
   res.render('admin/projects', { username: req.session.username, projects });
 });
 
-router.post('/projects', requireLogin, adminUpload, async (req, res) => {
+router.post('/projects', requireLogin, async (req, res) => {
   const data = { ...req.body };
-  if (req.files?.thumbnail?.[0]) data.thumbnail = '/uploads/' + req.files.thumbnail[0].filename;
-  if (req.files?.videoFile?.[0]) data.videoUrl = '/uploads/' + req.files.videoFile[0].filename;
   data.featured = data.featured === 'on';
   data.published = data.published !== 'off';
   await Project.create(data);
@@ -112,9 +96,8 @@ router.get('/blog', requireLogin, async (req, res) => {
   res.render('admin/blog', { username: req.session.username, posts });
 });
 
-router.post('/blog', requireLogin, adminUpload, async (req, res) => {
+router.post('/blog', requireLogin, async (req, res) => {
   const data = { ...req.body };
-  if (req.files?.coverImage?.[0]) data.coverImage = '/uploads/' + req.files.coverImage[0].filename;
   if (data.tags) data.tags = data.tags.split(',').map(t => t.trim());
   data.published = data.published === 'on';
   if (!data.slug && data.title) {
