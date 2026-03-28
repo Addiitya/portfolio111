@@ -9,8 +9,11 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Use process.cwd() to resolve root dir reliably inside Vercel Lambda
+const rootDir = process.cwd();
+
 // Ensure uploads directory exists (wrap in try-catch for Vercel's read-only file system)
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir = path.join(rootDir, 'uploads');
 try {
   if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 } catch (err) {
@@ -30,19 +33,19 @@ app.use(session({
 
 // View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(rootDir, 'views'));
 
 // Static files
-app.use(express.static(path.join(__dirname)));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(rootDir));
+app.use('/uploads', express.static(path.join(rootDir, 'uploads')));
 
 // Fallback exact routes for Vercel Serverless Function to serve HTML
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(rootDir, 'index.html'));
 });
 
 app.get('/category.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'category.html'));
+  res.sendFile(path.join(rootDir, 'category.html'));
 });
 
 // API Routes
