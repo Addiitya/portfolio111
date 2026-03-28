@@ -36,6 +36,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname)));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Fallback exact routes for Vercel Serverless Function to serve HTML
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/category.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'category.html'));
+});
+
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
