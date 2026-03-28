@@ -36,16 +36,16 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(rootDir, 'views'));
 
 // Static files
-app.use(express.static(rootDir));
+app.use(express.static(path.join(rootDir, 'public')));
 app.use('/uploads', express.static(path.join(rootDir, 'uploads')));
 
 // Fallback exact routes for Vercel Serverless Function to serve HTML
 app.get('/', (req, res) => {
-  res.sendFile(path.join(rootDir, 'index.html'));
+  res.sendFile(path.join(rootDir, 'public', 'index.html'));
 });
 
 app.get('/category.html', (req, res) => {
-  res.sendFile(path.join(rootDir, 'category.html'));
+  res.sendFile(path.join(rootDir, 'public', 'category.html'));
 });
 
 // API Routes
