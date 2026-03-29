@@ -475,3 +475,12 @@ function showFormStatus(statusEl, type, message) {
 loadPortfolio();
 loadBlog();
 
+// Prevent selecting past dates in the booking form
+const dateInput = document.querySelector('input[type="date"][name="date"]');
+if (dateInput) {
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    const localToday = new Date(today.getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+    dateInput.setAttribute('min', localToday);
+}
+
