@@ -5,6 +5,7 @@ const Contact = require('../models/Contact');
 const Booking = require('../models/Booking');
 const BlogPost = require('../models/BlogPost');
 const { requireLogin } = require('../middleware/auth');
+const { sendBookingConfirmationEmail, sendContactReplyEmail } = require('../utils/notifier');
 const router = express.Router();
 
 
@@ -84,7 +85,13 @@ router.get('/contacts', requireLogin, async (req, res) => {
 });
 
 router.post('/contacts/:id/read', requireLogin, async (req, res) => {
-  await Contact.findByIdAndUpdate(req.params.id, { read: true });
+  const contact = await Contact.findById(req.params.id);
+  if (contact && !contact.read) {
+    contact.read = true;
+    await contact.save();
+    // Fire the automated email non-blocking
+    sendContactReplyEmail(contact);
+  }
   res.redirect('/admin/contacts');
 });
 
@@ -95,7 +102,17 @@ router.get('/bookings', requireLogin, async (req, res) => {
 });
 
 router.post('/bookings/:id/status', requireLogin, async (req, res) => {
-  await Booking.findByIdAndUpdate(req.params.id, { status: req.body.status });
+  const booking = await Booking.findById(req.params.id);
+  if (booking) {
+    const oldStatus = booking.status;
+    booking.status = req.body.status;
+    await booking.save();
+    
+    // Only send if transitioning to 'confirmed'
+    if (oldStatus !== 'confirmed' && req.body.status === 'confirmed') {
+      sendBookingConfirmationEmail(booking);
+    }
+  }
   res.redirect('/admin/bookings');
 });
 

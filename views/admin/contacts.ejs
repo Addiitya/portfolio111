@@ -26,6 +26,8 @@
         .message-body { color: #ccc; line-height: 1.6; padding: 1rem; background: #080808; border-radius: 8px; }
         .btn-mark { background: none; border: 1px solid #333; color: #888; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; margin-top: 0.8rem; }
         .btn-mark:hover { border-color: #00cc00; color: #00cc00; }
+        .btn-whatsapp { background: rgba(37,211,102,0.1); border: 1px solid #25D366; color: #25D366; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; text-decoration: none; display: inline-block; margin-top: 0.8rem; margin-left: 0.5rem; transition: all 0.3s; }
+        .btn-whatsapp:hover { background: #25D366; color: #000; }
         .badge { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
         .badge-red { background: rgba(230,0,0,0.1); color: #e60000; }
         .badge-green { background: rgba(0,200,0,0.1); color: #00cc00; }
@@ -64,11 +66,17 @@
                 <% if (c.phone) { %><span>📱 <%= c.phone %></span><% } %>
             </div>
             <div class="message-body"><%= c.message %></div>
-            <% if (!c.read) { %>
-            <form method="POST" action="/admin/contacts/<%= c._id %>/read" style="display:inline;">
-                <button type="submit" class="btn-mark">✓ Mark as Read</button>
-            </form>
-            <% } %>
+            <div style="display: flex; align-items: center;">
+                <% if (!c.read) { %>
+                <form method="POST" action="/admin/contacts/<%= c._id %>/read" style="display:inline;">
+                    <button type="submit" class="btn-mark">✓ Mark as Read & Reply via Email</button>
+                </form>
+                <% } %>
+                
+                <% if (c.phone) { %>
+                    <a href="https://wa.me/<%= c.phone.replace(/[^0-9]/g, '') %>?text=<%= encodeURIComponent('Hi ' + c.name.split(' ')[0] + ', thank you for reaching out to _eyeadi Visuals! We have received your inquiry.') %>" target="_blank" class="btn-whatsapp">💬 Reply via WhatsApp</a>
+                <% } %>
+            </div>
         </div>
         <% }) %>
     </div>
