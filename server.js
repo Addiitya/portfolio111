@@ -58,28 +58,6 @@ app.use('/api/blog', require('./routes/blog'));
 // Admin Routes
 app.use('/admin', require('./routes/admin'));
 
-// Debug endpoint for diagnosing Vercel MONGODB connection
-app.get('/api/debug', async (req, res) => {
-  const uri = process.env.MONGODB_URI || "MISSING";
-  const maskedUri = uri.replace(/\/\/[^:]+:[^@]+@/, '//***:***@');
-  
-  let connectionError = null;
-  try {
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(uri, { serverSelectionTimeoutMS: 3000 });
-    }
-  } catch(e) {
-    connectionError = e.message;
-  }
-  
-  res.json({
-    uriConfigured: uri !== "MISSING",
-    maskedUri,
-    connectionState: mongoose.connection.readyState,
-    connectionError
-  });
-});
-
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
