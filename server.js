@@ -20,6 +20,8 @@ try {
   // Ignored on Serverless platforms
 }
 
+const MongoStore = require('connect-mongo');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -28,6 +30,10 @@ app.use(session({
   secret: process.env.JWT_SECRET || 'fallback-secret',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({ 
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: 'sessions'
+  }),
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
 }));
 
