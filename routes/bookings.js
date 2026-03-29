@@ -58,8 +58,8 @@ router.post('/', async (req, res) => {
     const booking = await Booking.create({ name, email, phone, eventType, date, location, budget, details });
     console.log(`📅 New booking from ${name} for ${eventType} on ${date}`);
     
-    // Send email notification (non-blocking)
-    sendBookingEmail({ name, email, phone, eventType, date, location, budget, details });
+    // Send email notification (await for Vercel Serverless persistence)
+    await sendBookingEmail({ name, email, phone, eventType, date, location, budget, details });
     
     res.status(201).json({ message: 'Booking request received! We\'ll confirm shortly.', booking });
   } catch (err) {

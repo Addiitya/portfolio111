@@ -89,8 +89,8 @@ router.post('/contacts/:id/read', requireLogin, async (req, res) => {
   if (contact && !contact.read) {
     contact.read = true;
     await contact.save();
-    // Fire the automated email non-blocking
-    sendContactReplyEmail(contact);
+    // Await the email so Vercel Serverless doesn't kill the lambda prematurely
+    await sendContactReplyEmail(contact);
   }
   res.redirect('/admin/contacts');
 });
@@ -110,7 +110,7 @@ router.post('/bookings/:id/status', requireLogin, async (req, res) => {
     
     // Only send if transitioning to 'confirmed'
     if (oldStatus !== 'confirmed' && req.body.status === 'confirmed') {
-      sendBookingConfirmationEmail(booking);
+      await sendBookingConfirmationEmail(booking);
     }
   }
   res.redirect('/admin/bookings');

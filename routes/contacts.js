@@ -53,8 +53,8 @@ router.post('/', async (req, res) => {
     const contact = await Contact.create({ name, email, phone, message });
     console.log(`📧 New contact from ${name} (${email}): ${message}`);
     
-    // Send email notification (non-blocking)
-    sendNotificationEmail({ name, email, phone, message });
+    // Send email notification (await for Vercel Serverless persistence)
+    await sendNotificationEmail({ name, email, phone, message });
     
     res.status(201).json({ message: 'Thank you! We\'ll get back to you soon.', contact });
   } catch (err) {
