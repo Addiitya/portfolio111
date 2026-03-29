@@ -63,6 +63,15 @@ router.post('/projects', requireLogin, async (req, res) => {
   res.redirect('/admin/projects');
 });
 
+router.post('/projects/edit/:id', requireLogin, async (req, res) => {
+  const data = { ...req.body };
+  data.featured = data.featured === 'on';
+  // Checkbox fallback if omitted
+  data.published = data.published !== 'off';
+  await Project.findByIdAndUpdate(req.params.id, data, { new: true });
+  res.redirect('/admin/projects');
+});
+
 router.post('/projects/:id/delete', requireLogin, async (req, res) => {
   await Project.findByIdAndDelete(req.params.id);
   res.redirect('/admin/projects');
