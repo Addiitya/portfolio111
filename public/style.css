@@ -1399,6 +1399,10 @@ section {
 
 /* Mobile */
 @media (max-width: 768px) {
+    section {
+        padding: var(--spacing-lg) 0;
+    }
+
     .container {
         padding: 0 1.5rem;
     }
@@ -1458,6 +1462,16 @@ section {
 
     .service-desc {
         display: none;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 16px !important; /* Force 16px to prevent iOS inputs auto-zoom */
+    }
+
+    .marquee span {
+        font-size: 1.2rem;
     }
 }
 
@@ -1521,4 +1535,24 @@ section {
 .lightbox-close:hover {
     color: white;
     transform: scale(1.2);
+}
+
+/* Touch device support & Lightbox Cursor Fix */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-dot, .cursor-glow {
+        display: none !important;
+    }
+    * {
+        cursor: auto !important;
+    }
+}
+
+/* Forcing native cursors when Lightbox is open */
+body.cursor-native * {
+    cursor: auto !important;
+}
+
+body.cursor-native .cursor-dot,
+body.cursor-native .cursor-glow {
+    display: none !important;
 }

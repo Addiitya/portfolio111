@@ -146,6 +146,7 @@ function initVideoLightbox() {
             lightboxVideo.load();
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('cursor-native');
             lightboxVideo.play().catch(() => {});
         });
     });
@@ -156,6 +157,7 @@ function initVideoLightbox() {
         lightboxVideo.pause();
         lightboxVideo.currentTime = 0;
         document.body.style.overflow = '';
+        document.body.classList.remove('cursor-native');
     }
 
     lightboxClose.addEventListener('click', closeLightbox);
