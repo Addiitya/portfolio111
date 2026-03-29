@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     const projects = await Project.find(filter).sort({ order: 1, createdAt: -1 });
     res.json(projects);
   } catch (err) {
-    res.status(500).json({ error: 'Server error.' });
+    res.status(500).json({ error: 'Server error.', details: err.message });
   }
 });
 
