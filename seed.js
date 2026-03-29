@@ -25,7 +25,7 @@ async function seed() {
           title: 'Neon Nights',
           category: 'Music Video',
           description: 'A vibrant music video exploring the city after dark',
-          thumbnail: 'https://images.unsplash.com/photo-1601506521937-0130f14d9bba?auto=format&fit=crop&q=80&w=1000',
+          thumbnail: 'https://images.unsplash.com/photo-1554147090-e1221a04a025?auto=format&fit=crop&q=80&w=1000',
           videoUrl: 'https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4',
           year: '2024',
           featured: true,
