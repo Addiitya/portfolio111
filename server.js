@@ -20,7 +20,7 @@ try {
   // Ignored on Serverless platforms
 }
 
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default;
 
 // Middleware
 app.use(cors());
